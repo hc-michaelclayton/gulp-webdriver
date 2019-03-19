@@ -1,5 +1,5 @@
-import gulp from 'gulp'
-import gutil from 'gulp-util'
+import series from 'gulp'
+import PluginError from 'plugin-error'
 
 import eslint from './gulp/eslint'
 import test from './gulp/test'
@@ -10,7 +10,7 @@ const options = {
     test: 'test',
     errorHandler: (title) => {
         return (err) => {
-            gutil.log(gutil.colors.red(`[${title}]`), err ? err.toString() : err)
+            PluginError(`[${title}]`, err ? err.toString() : err)
         }
     }
 }
@@ -18,6 +18,12 @@ const options = {
 eslint(options)
 test(options)
 
+function build() {
+    
+}
+
 gulp.task('default', ['clean'], () => {
     gulp.start('build')
 })
+
+exports.default = series();
